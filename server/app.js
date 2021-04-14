@@ -18,16 +18,6 @@ mongoose.connect(process.env.DB_URI_LOCAL, {
 
 const app = express()
 
-
-
-
-
-//routes
-app.get('/', (req, res) => {
-    res.send('hello amazon')
-})
-
-
 //Middlerwares
 app.use(morgan('dev'));
 app.use(bodyParser.json())
@@ -35,6 +25,14 @@ app.use(bodyParser.urlencoded({
     extended: false
 }))
 app.use(cors())
+
+
+
+//routes
+app.use('/api/v1',require('./routes/user'))
+
+
+
 
 const PORT = 3000 || process.env.PORT
 app.listen(PORT, () => {
