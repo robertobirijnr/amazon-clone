@@ -30,6 +30,7 @@ app.use(cors())
 
 //routes
 app.use('/api/v1',require('./routes/user'))
+app.use('/api/v1',require('./routes/products'))
 
 
 
