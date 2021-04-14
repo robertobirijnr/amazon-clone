@@ -4,10 +4,11 @@ const Product = require('../models/products')
 exports.createProduct = async(req,res)=>{
     try {
         let product = new Product()
-        product.title = req.body.title
-        product.description = req.body.description
+        let {title,description,stockQuantity} = req.body;
+        product.title = title
+        product.description = description
         product.photo = req.file.location
-        product.stockQuantity = req.body.stockQuantity
+        product.stockQuantity = stockQuantity
 
         await product.save()
         res.status(201).json({

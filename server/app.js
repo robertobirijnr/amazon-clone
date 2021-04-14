@@ -32,6 +32,7 @@ app.use(cors())
 app.use('/api/v1',require('./routes/user'))
 app.use('/api/v1',require('./routes/products'))
 app.use('/api/v1',require('./routes/category'))
+app.use('/api/v1',require('./routes/owner'))
 
 
 

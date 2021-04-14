@@ -2,9 +2,6 @@ const aws = require('aws-sdk')
 const multer = require('multer')
 const multers3 = require('multer-s3')
 
-// '6K8hIxBw6b9cPRag/8JXT6Bm37b/IuWtoTAzl1xN'
-// 'AKIAZNQG7EZZD7A6Z53X'
-
 aws.config.update({
     secretAccessKey:process.env.AWSSecretKey ,
     accessKeyId: process.env.AWSAccessKeyId
