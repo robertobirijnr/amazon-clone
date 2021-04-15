@@ -1,0 +1,18 @@
+
+# node-waf configuration
+.lock-wscript
+
+# Compiled binary addons (https://nodejs.org/api/addons.html)
+build/Release
+
+# Dependency directories
+node_modules/
+
+
+
+# dotenv environment variables file
+config.env
+
+# Nuxt generate
+dist
+

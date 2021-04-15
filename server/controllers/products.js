@@ -7,12 +7,14 @@ exports.createProduct = async (req, res) => {
         let {
             title,
             description,
-            stockQuantity
+            stockQuantity,
+            price
         } = req.body;
         product.title = title
         product.description = description
         product.photo = req.file.location
         product.stockQuantity = stockQuantity
+        product.price = price
 
         await product.save()
         res.status(201).json({
