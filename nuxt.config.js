@@ -12,8 +12,14 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: '/css/all.css' },
-      { rel: 'stylesheet', href: '/css/default.css' }
+      { rel: "stylesheet", type: "text/css", href: "https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" },
+      { rel: "stylesheet", type: "text/css", href: "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" },
+    ],
+    script: [
+      { src: 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js' },
+      { src: 'https://code.jquery.com/jquery-3.3.1.slim.min.js' },
+      { src: 'https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js' },
+      { src: 'https://code.iconify.design/1/1.0.7/iconify.min.js' }
     ]
   },
 
@@ -32,11 +38,19 @@ export default {
   buildModules: [
   ],
 
-  // Modules: https://go.nuxtjs.dev/config-modules
+  /*
+   ** Nuxt.js modules
+   */
   modules: [
-    // https://go.nuxtjs.dev/bootstrap
-    'bootstrap-vue/nuxt',
+    // Doc: https://github.com/nuxt-community/axios-module#usage
+    '@nuxtjs/axios'
   ],
+
+  axios: {
+    // See https://github.com/nuxt-community/axios-module#options
+    // Set the baseURL to JSONPlaceholder API
+    baseURL: 'http://localhost:8000/api/v1/'
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

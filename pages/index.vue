@@ -1,30 +1,59 @@
 <template>
-  <main>
-    <div class="a-spacing-large">
-
+  <div class="container">
+    <h4 class="py-3">All Products</h4>
+    <div class="d-flex">
+      <nuxt-link to="/products" class="btn btn-warning btn-sm mr-3"
+        >Add a new product</nuxt-link
+      >
+      <nuxt-link to="/category" class="btn btn-info btn-sm mr-3"
+        >Add a new category</nuxt-link
+      >
+      <nuxt-link to="/owner" class="btn btn-info btn-sm"
+        >Add a new owner</nuxt-link
+      >
     </div>
-    <div class="container-fluid browsing-history">
-      <div class="row">
-        <div class="com-sm-8 col-8">
-          <h1 class="a-size-large a-spacing-none a-text-normal">All Products</h1>
-              <div class="a-spacing-large"></div>
 
-
-          <a href="#" class="a-button-buy-again">Add a new product</a>
-           <a href="#" class="a-button-history margin-right-10">Add a new category</a>
-             <a href="#" class="a-button-buy-again">Add a new owner</a>
+    <div class="d-flex">
+      <div v-for="product in products" :key="product.index">
+        <div class="card mt-5 mr-3" style="width: 18rem">
+          <img class="card-img-top" :src="product.photo" alt="Card image cap" />
+          <div class="card-body">
+            <div class="d-flex">
+              <i class="fa fa-star text-warning" aria-hidden="true"></i>
+              <i class="fa fa-star text-warning" aria-hidden="true"></i>
+              <i class="fa fa-star text-warning" aria-hidden="true"></i>
+              <i class="fa fa-star text-warning" aria-hidden="true"></i>
+              <i class="fa fa-star text-warning" aria-hidden="true"></i>
+              (1713)
+            </div>
+            <h5 class="card-title">{{ product.title }}</h5>
+            <p class="card-text">ghs {{ product.price }}</p>
+            <div class="d-flex justify-content-between">
+              <nuxt-link  :to="`products/${product._id}`" class="btn btn-warning btn-sm">Update</nuxt-link>
+              <a href="#" class="btn btn-warning btn-sm">Delete</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </main>
+  </div>
 </template>
 
 <script>
-  export default {
-    
-  }
+export default {
+  async asyncData({ $axios }) {
+    try {
+      const response = await $axios.$get("products");
+      console.log(response.product);
+      return {
+        products: response.product,
+      };
+    } catch (err) {
+      console.log(err);
+    }
+  },
+};
 </script>
 
-<style  scoped>
-
+<style lang="scss" scoped>
 </style>
