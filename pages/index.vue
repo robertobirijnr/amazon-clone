@@ -14,7 +14,7 @@
     </div>
 
     <div class="d-flex">
-      <div v-for="product in products" :key="product.index">
+      <div v-for="(product,index) in products" :key="product._id">
         <div class="card mt-5 mr-3" style="width: 18rem">
           <img class="card-img-top" :src="product.photo" alt="Card image cap" />
           <div class="card-body">
@@ -29,8 +29,17 @@
             <h5 class="card-title">{{ product.title }}</h5>
             <p class="card-text">ghs {{ product.price }}</p>
             <div class="d-flex justify-content-between">
-              <nuxt-link  :to="`products/${product._id}`" class="btn btn-warning btn-sm">Update</nuxt-link>
-              <a href="#" class="btn btn-warning btn-sm">Delete</a>
+              <nuxt-link
+                :to="`products/${product._id}`"
+                class="btn btn-warning btn-sm"
+                >Update</nuxt-link
+              >
+              <button
+                @click.prevent="deleteProduct(product._id, index)"
+                class="btn btn-warning btn-sm"
+              >
+                Delete
+              </button>
             </div>
           </div>
         </div>
@@ -44,13 +53,30 @@ export default {
   async asyncData({ $axios }) {
     try {
       const response = await $axios.$get("products");
-      console.log(response.product);
+      // console.log(response.product);
       return {
         products: response.product,
       };
     } catch (err) {
       console.log(err);
     }
+  },
+  // data() {
+  //   return {
+  //     products: []
+  //   }
+  // },
+  methods: {
+    async deleteProduct(id, index) {
+      try {
+        let response = await this.$axios.$delete(`product/${id}`);
+        if (response.status) {
+          this.products.splice(index, 1);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    },
   },
 };
 </script>

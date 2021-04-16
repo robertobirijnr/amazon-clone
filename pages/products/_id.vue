@@ -26,7 +26,7 @@
           </div>
           <div class="form-group">
             <label for="Owner">Title</label>
-            <input type="text" v-model="title" class="form-control" placeholder="enter title" />
+            <input type="text" v-model="title" class="form-control" :placeholder="product.title" />
           </div>
           <div class="form-group">
             <label for="Price">Price</label>
@@ -34,7 +34,7 @@
               type="number"
               v-model="price"
               class="form-control"
-              placeholder="enter price"
+              :placeholder="product.price"
             />
           </div>
            <div class="form-group">
@@ -43,7 +43,7 @@
               type="number"
               v-model="stockQuantity"
               class="form-control"
-              placeholder="enter price"
+              :placeholder="product.stockQuantity"
             />
           </div>
           <div class="form-group">
@@ -53,6 +53,7 @@
               v-model="description"
               class="form-control"
               rows="3"
+              :placeholder="product.description"
             ></textarea>
           </div>
           <div class="custom-file">
@@ -90,7 +91,7 @@ export default {
       ]);
       //   console.log(cateResponse.category);
       //   console.log(ownerResponse.owner);
-      console.log(productResponse);
+      // console.log(productResponse);
       return {
         categories: cateResponse.category,
         owners: ownerResponse.owner,

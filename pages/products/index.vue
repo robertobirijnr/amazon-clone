@@ -101,7 +101,7 @@ export default {
       categoryId: null,
       ownerId: null,
       title: "",
-      price: 0,
+      price: "",
       description: "",
       selectedFile: null,
       filename: "",
