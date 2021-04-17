@@ -8,13 +8,17 @@ exports.createProduct = async (req, res) => {
             title,
             description,
             stockQuantity,
-            price
+            price,
+            category,
+            owner
         } = req.body;
         product.title = title
         product.description = description
         product.photo = req.file.location
         product.stockQuantity = stockQuantity
         product.price = price
+        product.category = category
+        product.owner = owner
 
         await product.save()
         res.status(201).json({
@@ -32,7 +36,7 @@ exports.createProduct = async (req, res) => {
 
 exports.getAllProducts = async (req, res) => {
     try {
-        let product = await Product.find()
+        let product = await Product.find().populate('category owner').exec()
         res.status(200).json({
             success: true,
             "Total Products": product.length,
@@ -51,7 +55,10 @@ exports.getSingleProduct = async (req, res) => {
         let {
             id
         } = req.params
-        let product = await Product.findById(id)
+        let product = await Product.findOne({
+                _id: id
+            })
+            .populate('category owner').exec()
         if (!product) {
             res.status(404).json({
                 success: false,
@@ -73,9 +80,8 @@ exports.getSingleProduct = async (req, res) => {
 
 exports.updateProduct = async (req, res) => {
     try {
-        let {
-            id
-        } = req.params;
+        let
+            id = req.params._id;
         let product = await Product.findOneAndUpdate(id, {
             $set: {
                 title: req.body.title,
@@ -100,19 +106,23 @@ exports.updateProduct = async (req, res) => {
     }
 }
 
-exports.deleteProduct = async(req,res)=>{
+exports.deleteProduct = async (req, res) => {
     try {
-        let {id} = req.params;
-        let product = await Product.findOneAndDelete(id)
-        if(product){
+        let {
+            id
+        } = req.params;
+        let product = await Product.findOneAndDelete({
+            _id: id
+        })
+        if (product) {
             res.json({
-                status:true,
-                message:"successfully deleted"
+                status: true,
+                message: "successfully deleted"
             })
         }
 
     } catch (err) {
-         res.status(500).json({
+        res.status(500).json({
             success: false,
             message: err.message
         })
