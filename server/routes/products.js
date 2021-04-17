@@ -13,7 +13,7 @@ const upload = require('../middlewares/upload-photo')
 
 router.post('/create-product', upload.single("photo"), createProduct)
 router.get('/products', getAllProducts)
-router.get('/product/:id', getSingleProduct)
+router.get('/products/:id', getSingleProduct)
 router.put('/product/:id',upload.single("photo"), updateProduct)
 router.delete('/product/:id',deleteProduct)
 
