@@ -52,30 +52,18 @@ exports.getAllProducts = async (req, res) => {
 
 exports.getSingleProduct = async (req, res) => {
     try {
-        let {
-            id
-        } = req.params
-        let product = await Product.findOne({
-                _id: id
-            })
-            .populate('category owner').exec()
+        const product = await Product.findById(req.params.id);
         if (!product) {
-            res.status(404).json({
-                success: false,
-                message: `there is no product with ${id}`
-            })
-        } else {
-            res.status(200).json({
-                message: true,
-                product
-            })
+          return res.status(404).json({ msg: "Post not found" });
         }
-    } catch (err) {
-        res.status(500).json({
-            success: false,
-            message: err.message
-        })
-    }
+        res.json(product);
+      } catch (err) {
+        // console.error(err.message);
+        if (err.kind === "ObjectId") {
+          return res.status(404).json({ msg: "Product not found" });
+        }
+        res.send(500).json("Server Error");
+      }
 }
 
 exports.updateProduct = async (req, res) => {
@@ -122,9 +110,10 @@ exports.deleteProduct = async (req, res) => {
         }
 
     } catch (err) {
-        res.status(500).json({
-            success: false,
-            message: err.message
-        })
-    }
+        // console.error(err.message);
+        if (err.kind === "ObjectId") {
+          return res.status(404).json({ msg: "Product not found" });
+        }
+        res.send(500).json("Server Error");
+      }
 }

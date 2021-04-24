@@ -22,7 +22,7 @@ exports.signUp = async (req, res) => {
 
             await user.save()
             let token = jwt.sign(user.toJSON(), process.env.JWT_SECRETE, {
-                expiresIn: 604800 //1week
+                expiresIn: process.env.JWT_Token_EXPIRES_IN
             })
             res.json({
                 success: true,
@@ -53,7 +53,7 @@ exports.signIn = async (req, res) => {
         } else {
             if (user.comparePassword(req.body.password)) {
                 let token = jwt.sign(user.toJSON(), process.env.JWT_SECRETE, {
-                    expiresIn: 604800
+                    expiresIn: process.env.JWT_Token_EXPIRES_IN
                 })
 
                 res.json({
@@ -84,6 +84,30 @@ exports.userProfile = async (req, res) => {
             res.json({
                 success: true,
                 user: userinfo
+            })
+        }
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: err.message
+        })
+    }
+}
+
+exports.updateProfile = async (req, res) => {
+    try {
+        let user = await User.findOne({
+            _id: req.decoded._id
+        })
+        if (user) {
+            if (req.body.name) user.name = req.body.name;
+            if (req.body.email) user.email = req.body.email;
+            if (req.body.password) user.password = req.body.password;
+
+            await user.save();
+            res.json({
+                success: true,
+                message: "successfully updated"
             })
         }
     } catch (err) {
