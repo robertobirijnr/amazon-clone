@@ -12,7 +12,7 @@ const AddressSchema = new Schema({
     city: String,
     region: String,
     phoneNumber: String,
-    deliveryInstruction: String,
+    deliveryInstructions: String,
     securityCode: String
 })
 
