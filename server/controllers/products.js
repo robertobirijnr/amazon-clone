@@ -10,7 +10,8 @@ exports.createProduct = async (req, res) => {
             stockQuantity,
             price,
             category,
-            owner
+            owner,
+            review
         } = req.body;
         product.title = title
         product.description = description
@@ -19,6 +20,7 @@ exports.createProduct = async (req, res) => {
         product.price = price
         product.category = category
         product.owner = owner
+        product.review = review
 
         await product.save()
         res.status(201).json({
@@ -36,7 +38,10 @@ exports.createProduct = async (req, res) => {
 
 exports.getAllProducts = async (req, res) => {
     try {
-        let product = await Product.find().populate('category owner').exec()
+        let product = await Product.find()
+        .populate('category owner')
+        .populate("reviews","rating")
+        .exec()
         res.status(200).json({
             success: true,
             "Total Products": product.length,
@@ -52,9 +57,12 @@ exports.getAllProducts = async (req, res) => {
 
 exports.getSingleProduct = async (req, res) => {
     try {
-        const product = await Product.findById(req.params.id);
+        const product = await Product.findById(req.params.id)
+        .populate('category owner')
+        .populate("reviews","rating")
+        .exec()
         if (!product) {
-          return res.status(404).json({ msg: "Post not found" });
+          return res.status(404).json({ msg: "Product not found" });
         }
         res.json(product);
       } catch (err) {

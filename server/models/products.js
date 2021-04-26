@@ -2,23 +2,39 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ProductSchema = new Schema({
-    category:{
-        type:Schema.Types.ObjectId,
-        ref:"Category"
-    },
-    owner:{
+    category: {
         type: Schema.Types.ObjectId,
-        ref:"Owner"
+        ref: "Category"
     },
-    title:String,
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: "Owner"
+    },
+    reviews: [{
+        type: Schema.Types.ObjectId,
+        ref: "Review"
+    }],
+    title: String,
     description: String,
-    photo:String,
-    price:Number,
+    photo: String,
+    price: Number,
     stockQuantity: Number,
-    rating:{
-        type: Schema.Types.ObjectId,
-        ref:"Review"
-    }
+
+},{
+    toObject:{virtuals:true},
+    toJSON:{virtuals: true}
 })
 
-module.exports = mongoose.model("Product",ProductSchema)
+ProductSchema.virtual('averageRating').get(function () {
+    if (this.reviews.length > 0) {
+        let sum = this.reviews.reduce((total, review) => {
+            return total + review.rating
+        },0)
+
+        return sum / this.reviews.length
+    }
+
+    return 0;
+})
+
+module.exports = mongoose.model("Product", ProductSchema)

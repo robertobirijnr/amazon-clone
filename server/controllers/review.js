@@ -17,14 +17,18 @@ exports.createReview = async (req, res) => {
             review.user = req.decoded._id,
             review.productID = req.params.productID
 
-            await Product.updateOne({ $push: review._id})
-            const savedReview = await review.save();
-            if(savedReview){
-                res.json({
-                    success: true,
-                    message: "successfully added review"
-                })
+        await Product.updateOne({
+            $push: {
+                reviews: review._id
             }
+        })
+        const savedReview = await review.save();
+        if (savedReview) {
+            res.json({
+                success: true,
+                message: "successfully added review"
+            })
+        }
     } catch (err) {
         if (err.kind === "ObjectId") {
             return res.status(404).json({
@@ -35,7 +39,7 @@ exports.createReview = async (req, res) => {
     }
 }
 
-exports.getReviews = async (req,res)=>{
+exports.getReviews = async (req, res) => {
     try {
         const ProductReviews = await Review.find({
             productID: req.params.productID
@@ -51,6 +55,6 @@ exports.getReviews = async (req,res)=>{
             });
         }
         res.send(500).json("Server Error");
-    
+
     }
 }
