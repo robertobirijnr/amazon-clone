@@ -53,7 +53,7 @@ exports.signIn = async (req, res) => {
         } else {
             if (user.comparePassword(req.body.password)) {
                 let token = jwt.sign(user.toJSON(), process.env.JWT_SECRETE, {
-                    expiresIn: process.env.JWT_Token_EXPIRES_IN
+                    expiresIn: '365d'
                 })
 
                 res.json({
@@ -79,7 +79,7 @@ exports.userProfile = async (req, res) => {
     try {
         let userinfo = await User.findOne({
             _id: req.decoded._id
-        })
+        }).populate('address').exec()
         if (userinfo) {
             res.json({
                 success: true,

@@ -5,7 +5,8 @@ const {
     getAllCountries,
     updateAddress,
     deleteAddress,
-    setDefaultAddress
+    setDefaultAddress,
+    getSingleAddress
 } = require("../controllers/address");
 const router = express.Router()
 const verifyToken = require('../middlewares/verifyToken')
@@ -13,6 +14,7 @@ const verifyToken = require('../middlewares/verifyToken')
 
 router.post('/address', verifyToken, createAddress);
 router.get('/address', verifyToken, getAddress)
+router.get('/address/:id', verifyToken, getSingleAddress)
 router.put('/address/:id', verifyToken, updateAddress)
 router.delete('/address/:id', verifyToken, deleteAddress)
 
